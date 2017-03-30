@@ -3,7 +3,6 @@ Data structures implemented for demo use
 Node
 NodeDeque 
 """
-import lists.node 
         
 class NodeDeque(object):
     def __init__(self):

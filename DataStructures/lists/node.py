@@ -1,8 +1,8 @@
-'''
+"""
 Created on 2017年3月30日
 
 @author: ipr
-'''
+"""
 
 class Node(object):
     def __init__(self, val):
