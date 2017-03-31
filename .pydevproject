@@ -6,5 +6,8 @@
 <path>/${PROJECT_DIR_NAME}/ch1</path>
 <path>/${PROJECT_DIR_NAME}/DataStructures</path>
 <path>/${PROJECT_DIR_NAME}/TestDataStructures</path>
+<path>/${PROJECT_DIR_NAME}/ch1/ch1-3</path>
+<path>/${PROJECT_DIR_NAME}/Forms</path>
+<path>/${PROJECT_DIR_NAME}/TestForms</path>
 </pydev_pathproperty>
 </pydev_project>
