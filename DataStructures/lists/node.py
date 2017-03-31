@@ -13,3 +13,5 @@ class Node(object):
     def __repr__(self, *args, **kwargs):
         return "Node(%s)" % str(self.val)
     
+    def value(self):
+        return self.val
