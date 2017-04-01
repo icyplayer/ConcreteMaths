@@ -16,7 +16,7 @@ class Form(object):
     ...
     ======================
     """
-    def __init__(self, vecLst, dim=2):
+    def __init__(self, vecLst, dim=2, needTranspose=True):
         """
         vecLst: list of list
         Example: dim = 3s
@@ -28,6 +28,7 @@ class Form(object):
         """
         self.vecLst = np.array(vecLst)
         self.dim = dim
+        self.needTranspose = needTranspose
         if len(self.vecLst.shape) == 1:
             self.vecLst.shape = (len(vecLst), 1,)
     
@@ -35,16 +36,29 @@ class Form(object):
         if newDim > self.vecLst.shape[-1] or newDim < 0:
             raise ValueError("Invalid dim value: Out of range")
         self.dim = newDim
+    
+    def getDim(self):
+        return self.dim
         
     def genForm(self, formHeaders=None, selfFormated=False):
-        vecNum, vecDim = self.vecLst.shape[0], self.vecLst.shape[-1]
         try:
-            if self.dim == vecDim:  # dim to be display equal to count of vars
-                trans = np.transpose(self.vecLst)
-            elif self.dim < vecDim:  # truncated: self.dim < self.vecLst.shape[-1],  
-                trans = np.transpose(self.vecLst)[:self.dim]
-            else:  # dim overrange
-                raise ValueError("dim out of range!")
+            if self.needTranspose:
+                vecNum, vecDim = self.vecLst.shape[0], self.vecLst.shape[-1]            
+                if self.dim == vecDim:  # dim to be display equal to count of vars
+                    trans = np.transpose(self.vecLst)
+                elif self.dim < vecDim:  # truncated: self.dim < self.vecLst.shape[-1],  
+                    trans = np.transpose(self.vecLst)[:self.dim]
+                else:  # dim overrange: self.dim > vecDim
+                    raise ValueError("dim out of range!")   
+            else:  # self.needTranspose == False
+                vecNum, vecDim = self.vecLst.shape[-1], self.vecLst.shape[0]  
+                if self.dim == vecDim:
+                    trans = self.vecLst
+                elif self.dim < vecDim:
+                    trans = self.vecLst[:self.dim]
+                else:  # dim overrange: self.dim > vecDim
+                    raise ValueError("dim out of range!") 
+                                
         except ValueError as ie:
             print(str(ie))
             print("Truncate dim %d => %d..." % (self.dim, vecDim))

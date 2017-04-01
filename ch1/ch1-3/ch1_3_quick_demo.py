@@ -1,8 +1,10 @@
 from lists.node import Node
 from lists.deque import NodeDeque
 
+from forms.forms import Form
+import numpy as np
 
-def josephus(n):
+def josephus_iterVer(n):
     # 1. init
     crowdDeq = NodeDeque()
     # number the crowd, 1~n
@@ -55,18 +57,55 @@ def josephus(n):
     return crowdDeq.peek().value()
 
 
-# simple test
-n = 10
-print("Josephus(%d) = %r" % (n, josephus(n)))            
-print()
+def josephus_bitwiseVer1(n):
+    """ J(2^m+l) = 2*l + 1 """
+    m = len(str(bin(n))) - 2  # 0bxxxx, m = 4
+    return (((n ^ (1 << (m-1))) << 1) + 1)  # J(n) = 2*l+1 = (bn-1 bn-2 ... b1 b0 1)2
+
+def josephus_bitwiseVer2(n):
+    """ J(2^m+l) = 2*l + 1 """
+    bNStr = str(bin(n))
+#     print(bNStr)
+#     print("0b" + bNStr[3:] + bNStr[2])
+    return int(bNStr[3:]+bNStr[2], 2)  # J(n) = 2*l+1 = (bn-1 bn-2 ... b1 b0 bm)2
 
 
-upperBound = 50
-print("Josephus:")
-j = []
-for i in range(1, upperBound):
-    j.append(josephus(i))
+def test1():
+    """ simple test of BF method"""
+    n = 10
+    print("Josephus(%d) = %r" % (n, josephus_iterVer(n)))            
+    print()
+    
+    upperBound = 50
+    print("Josephus:")
+    j = []
+    for i in range(1, upperBound):
+        j.append(josephus_iterVer(i))
+    
+    print(j)
+    
+    
+def test2():
+    """ bitwise test """
+    print("bitwise test")
+    # init form generator
 
+    
+    try:
+        nLst = [0, 1, 2, 9, 10]
+        result1, result2 = [], []
+        for n in nLst:
+            result1.append(josephus_bitwiseVer1(n))
+            result2.append(josephus_bitwiseVer2(n))
+        dim = 3
+        form = Form([nLst, result1, result2], dim, False)
+        print("Josephus bitwise-v1: J(2^m+l) = 2*l+1 = (bn-1 bn-2 ... b1 b0 1 )2")
+        print("Josephus bitwise-v2: J(2^m+l) = 2*l+1 = (bn-1 bn-2 ... b1 b0 bm)2")
+        print(form.genFromWithHeader(["n", "Jv1(n)", "Jv2(n)",]))
 
-print(j)
+    except Exception as e:
+        print(str(e))
+
+        
+test2()
 
