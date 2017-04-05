@@ -27,6 +27,15 @@ def test1():
     print(form.genFromWithHeader(["X", "Y", "Z", "W"]))
 
 
+
+
+
+# print("test 1")
+# test1()
+
+
+print("test 2")
+
 # test non-transpose case
 vecLstNonTrans = [[1,2,3],
                   [0,0,1],
