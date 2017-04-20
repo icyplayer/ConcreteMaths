@@ -114,6 +114,7 @@ class NodeDeque(DequeBase):
     def remove(self, idx=-1):
         # 1. Locate deque[idx]
         curr = self.index(idx)
+#         rmVal = curr.value()
         # 2. Remove references to and from curr, reorganize deque
         if self.head == self.tail:  # single element in deque
             self.head, self.tail = None, None
@@ -128,6 +129,7 @@ class NodeDeque(DequeBase):
             curr.nxt.prev = curr.prev
         curr.prev, curr.nxt = None, None
         self.length -= 1
+        return curr.value()
 
     def pop(self):
         if self.empty():
@@ -138,7 +140,7 @@ class NodeDeque(DequeBase):
         curr.prev = None
         self.length -= 1
         return curr
-    
+
     def peek(self):
         if self.empty():
             raise IndexError("NodeDeque is empty")

@@ -2,7 +2,6 @@ from lists.node import Node
 from lists.deque import NodeDeque
 
 
-
 def josephus_iterVer(n):
     # 1. init
     crowdDeq = NodeDeque()
@@ -57,7 +56,7 @@ def josephus_bitwiseVer1(n):
     """ J(2^m+l) = 2*l + 1 """
     if n == 0:
         return 0
-    m = len(str(bin(n))) - 2  # 0bxxxx, m = 4
+    m = (n).bit_length()  # 0bxxxx, m = 4
     return (((n ^ (1 << (m-1))) << 1) + 1)  # J(n)=2*l+1=(bn-1 ... b1 b0 1)2
 
 
@@ -220,4 +219,57 @@ def josephus_general(x, alphaLst, betaLst, recurrenceLst, c, d):
         beta_bi = betaLst[int(bi)]
         ycBitLst.append(beta_bi)
     result = cvtBase(ycBitLst, oldBase=c, newBase=10, readable=False)
+    return result
+
+
+#===============================================================================
+# Exercises
+#===============================================================================
+
+#===============================================================================
+
+# # Buggy version
+# def josephus_2menVer(n):
+#     if n < 2:
+#         raise ValueError("n=%d out of range" % n)
+#     # 1. init
+#     crowdDeq = NodeDeque()
+#     # number the crowd, 1~n
+#     for i in range(1, n + 1):
+#         crowdDeq.append(Node(i))
+#     # 2. looping untill the crowd has 1 person left
+#     # start from crowdDeq[0], if is -1, means last killing loop, n is odd
+#     startIdx = 0
+#     while 1:
+#         if startIdx + n % 2 == 0:
+#             upperBound = n - 1
+#         else:
+#             upperBound = n - 2
+#         if n % 2 == 1 and startIdx == 0:
+#             startIdx = -1
+#         elif n % 2 == 1 and startIdx == -1:
+#             startIdx = 0
+# 
+#         for i in range(upperBound, -1, -2):
+#             rmValue = crowdDeq.remove(i)  # must be removed in reverse order
+#             n -= 1
+#             if len(crowdDeq) == 1:
+#                 return rmValue
+#===============================================================================
+
+
+def josephus_2menVer2(n):
+    """
+    n = 2^m + 2^(m-1) + k
+    I(n) = 2k+1
+    """
+    if n < 2:
+        raise ValueError("n=%d out of range" % n)
+    m = n.bit_length()  # 0bxxxx, m = 4
+    a, b = 1 << (m-2), 1 << (m-1)
+    l = n-b
+    if 0 <= l < a:
+        result = josephus_bitwiseVer3(n) + a
+    else:  # a <= l < b
+        result = josephus_bitwiseVer3(n) - b
     return result

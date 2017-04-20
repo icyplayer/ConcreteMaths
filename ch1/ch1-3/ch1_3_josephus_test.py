@@ -21,6 +21,7 @@ def test1():
 
     print(j)
 
+
 # test1()
 
 
@@ -90,8 +91,43 @@ def testCvtBase():
 
 
 # testCvtBase()
+# 
+# print(josephus_general(x=19,
+#                        alphaLst=[34, 5], betaLst=[76, -2, 8],
+#                        recurrenceLst=["10f(n)+76", "10f(n)-2", "10f(n)+8"],
+#                        c=10, d=3))
 
-print(josephus_general(x=19,
-                       alphaLst=[34, 5], betaLst=[76, -2, 8],
-                       recurrenceLst=["10f(n)+76", "10f(n)-2", "10f(n)+8"],
-                       c=10, d=3))
+
+#===============================================================================
+# test for excercises
+#===============================================================================
+
+
+def testEx1_15():
+    """ simulate Ex1.15 """
+    print("simple ver")
+    n = 10
+    print("I(%d) = %r" % (n, josephus_2menVer(n)))
+    print()
+    upperBound = 15
+
+    print("I(n):")
+    iLst = []
+    for i in range(2, upperBound):
+        iLst.append(josephus_2menVer(i))
+    print(iLst)
+
+    print("ref answer ver")
+    n = 10
+    print("I(%d) = %r" % (n, josephus_2menVer2(n)))
+    print()
+    print("I(n):")
+    iLst = []
+    for i in range(2, upperBound):
+        iLst.append(josephus_2menVer2(i))
+    print(iLst)
+
+
+testEx1_15()
+
+
